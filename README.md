@@ -1,2 +1,2 @@
 # docker
-Repositório com aprendizado e exercícios em Docker
+Repositório com aprendizado e exercícios: Docker
