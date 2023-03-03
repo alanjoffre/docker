@@ -1,0 +1,23 @@
+# Docker do zero a produção
+
+Comando para listar todos os containers ativos: docker ps
+Comando que executa a imagem hello-world: docker run hello-world
+
+Site: https://hub.docker.com
+Repositório de imagens oficial - Docker
+
+Comando para listar todas as imagens baixadas no computador> docker image ls
+Comando para listar todas as imagens baixadas no computador> docker image ls | grep nginx
+
+Comando para executar o container (console vai ficar preso): docker run nginx:1.19.10-alpine
+Comando para executar a container (console vai ficar livre): docker run -d nginx:1.19.10-alpine
+Comando para executar a container (console vai ficar livre), informando a posta: docker run -p 8000:80 -d nginx:1.19.10-alpine
+
+Comando para parar o container: docker stop CONTAINER-ID (os tres primeiros digitos já serve)
+Comando para parar o container: docker stop NAMES
+
+Comando para listar os containers em execução: docker ps
+Comando para listar todos os containers executados no computador: docker ps -a
+Comando para listar todos os containers executados no computador: docker ps -a | greap nginx
+
+
