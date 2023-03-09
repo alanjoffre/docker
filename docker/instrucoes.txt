@@ -18,6 +18,36 @@ Comando para parar o container: docker stop NAMES
 
 Comando para listar os containers em execução: docker ps
 Comando para listar todos os containers executados no computador: docker ps -a
-Comando para listar todos os containers executados no computador: docker ps -a | greap nginx
+Comando para listar todos os containers executados no computador: docker ps -a | findstr nginx
+
+## Conceito de Volume:
+Crie um arquivo index.html na pasta do projeto, importe o arquivo para a imagem do container com o comando abaixo;
+Comando para importar um arquivo para a imagem nginx (windows): docker run -p 8000:80 -v ${PWD}:/usr/share/nginx/html nginx:1.19.10-alpine
+Comando para importar um arquivo para a imagem nginx (linux): docker run -p 8000:80 -v $(pwd}:/usr/share/nginx/html nginx:1.19.10-alpine
+Nota: Por causa da opção '-v' tudo que for alterado no index.html da sua maquina, será atualiza na imagem do docker
+
+Agora será feito o inverso, tudo o que for alterado na imagem do docker do arquivo 'index.html', será alterado na maquina
+Comando para alterar o arquivo na imagem do docker para a maquina: docker exec -it ID-container /bin/sh 
+No meu caso ficou desta forma: docker exec -it e40 /bin/sh
+Comando para listar o diretório do container: ls
+Comando para listar o conteudo de um arquivo: cat docker-entrypoint.sh
+Comando para acessar o arquivo index.html no container: cat /usr/share/nginx/html/index.html
+Comando para instalar o apk vim na imagem do container: apk add vim
+Comando para editar o arquivo index.html na imagem do container: vim /usr/share/nginx/html/index.html
+
+Instruções: Vim
+Para editar o arquivo, pressione a tecla i para entrar no modo de inserção. 
+Quando terminar de fazer as alterações, pressione a tecla Esc para sair do modo de inserção e voltar ao modo normal. 
+Para salvar as alterações, digite :w e pressione Enter. 
+Para sair do editor, digite :q e pressione Enter. 
+Se você quiser salvar as alterações e sair do editor, digite :wq e pressione Enter. 
+Se você quiser sair sem salvar as alterações, digite :q! e pressione Enter.
+
+### Volume permite Sincronização
+
+### O volume é a consistencia para que não percam os dados.
+
+1:08:07
+
 
 
