@@ -1,10 +1,18 @@
 # Docker do zero a produção
 
+# Docker = golang + python
+
+# Melhores práticas em docker/desenvolvimento
+Não utilizar usuário root por padrão
+Baixar apenas imagens com selo OFICIAL do site: https://hub.docker.com
+Rodar 
+
+# Comando para logar sua conta Docker no Terminal VSCODE: docker login
+Insira seu usuário
+Insira sua senha
+
 Comando para listar todos os containers ativos: docker ps
 Comando que executa a imagem hello-world: docker run hello-world
-
-Site: https://hub.docker.com
-Repositório de imagens oficial - Docker
 
 Comando para listar todas as imagens baixadas no computador> docker image ls
 Comando para listar todas as imagens baixadas no computador> docker image ls | grep nginx
@@ -58,6 +66,8 @@ Comando para executar uma imagem 'mysql' com volume: docker run -p 33006:3006 -d
 
 Comando para acessar a imagem 'mysql': docker exec -it a44 /bin/bash
 Comando para logar no banco de dados 'mysql' via bash: mysql -uroot -proot
+Comando para verificar qual usuário está logado no momento: whoami
+Comando para acessar com outro usuário sem ser o root: docker exec -u mysql -it XXX(id container) mysql /bin/bash
 Comando para listar os databases: show databases;
 Comando para selecionar um databases: use sys;
 Comando para listar as tabelas do database selecionado: show tables;
@@ -72,3 +82,173 @@ Comando para listar as imagens salvas no seu equimamento: docker image ls
 Comando para listar as imagens salvas no seu equimamento: docker image ls --format "{{.ID}}\t{{.Repository}}\t{{.Tag}}\t{{.Size}}"
 Comando para excluir uma imagem: docker rmi nome-imagem
 
+Comando para copiar arquivos do container para a maquina: docker cp XXX:/home/node/.p10k.zsh ./.p10k.zsh
+Comando para copiar arquivos da maquina para o container: docker cp XXX:./.p10k.zsh /home/node/.p10k.zsh
+
+# Dockerfile
+
+Baixe a imagem node: docker run node: docker run node:14.17.0-slim 
+
+Crie um arquivo na raiz do projeto com o seguinte nome: Dockerfile
+
+Adicione as seguintes linha:
+FROM node:14.17.0-slim
+
+Execute o seguinte comando para gerar a imagem: docker build -t minha-imagem-node .
+
+O comando "docker build -t minha-imagem-node ." é usado para criar uma nova imagem Docker a partir de um Dockerfile.
+
+Explicando cada parte do comando:
+
+"docker build" é o comando para criar uma nova imagem Docker;
+"-t" é usado para definir um nome e uma tag para a nova imagem;
+"minha-imagem-node" é o nome que você escolheu para a imagem;
+"." é o caminho para o diretório onde está o Dockerfile que será usado para criar a imagem.
+Ao executar esse comando, o Docker irá ler o Dockerfile que está no diretório atual (representado pelo "."), construir uma nova 
+imagem com base nas instruções contidas no Dockerfile e, em seguida, taggeá-la com o nome "minha-imagem-node".
+
+Após a conclusão do processo de build, você poderá executar um container a partir dessa nova imagem, usando o comando "docker run 
+minha-imagem-node" (supondo que o nome da imagem que você criou foi "minha-imagem-node").
+
+Comando para listar as imagens: docker image ls | findstr minha-imagem-node 
+Comando para gerar uma imagem para o meu perfil/Docker: docker build -t alanjoffre/minha-imagem-node .
+Comando para subir uma imagem para o meu perfil/Docker: docker push alanjoffre/minha-imagem-node
+Url para acesso da imagem: docker.io/alanjoffre/minha-imagem-node
+
+Comando para executar a imagem gerada: docker run minha-imagem-node
+Comando: docker run minha-imagem-node node -v
+
+O comando "docker run minha-imagem-node node -v" irá executar um novo container a partir da imagem "minha-imagem-node" e executará o comando "node -v" dentro desse container.
+O comando "node -v" retorna a versão do Node.js instalada no container.
+Se a imagem "minha-imagem-node" foi criada corretamente e contém o Node.js instalado, o comando retornará a versão do Node.js instalada no container.
+Caso contrário, o comando retornará uma mensagem de erro indicando que o comando "node" não foi encontrado no container. Nesse caso, 
+você precisará criar uma imagem que inclua o Node.js ou instalar o Node.js manualmente no container.
+
+Abra novamente o arquivo: Dockerfile
+
+Atualize as linhas com o seguinte código:
+FROM node:14.17.0-slim
+# Não utilize o usuário root
+USER node
+#WORKDIR /home/node/app
+#CMD [ "node", "/home/node/app/index.js" ]
+CMD [ "tail", "-f", "/dev/null"]
+
+Como a imagem foi alterada, execute o seguinte comando para aplicar as alterações no arquivo Dockerfile: 
+docker build -t minha-imagem-node .
+
+Execute o seguinte comando: docker run -v ${PWD}:/home/node/app minha-imagem-node
+Execute o seguinte comando: docker ps
+Execute o seguinte comando: docker exec -it XXX /bin/bash
+Execute o seguinte comando (entrar na raiz do linux): pwd
+Execute o seguinte comando (acessar o diretório): cd home/node/app
+Execute o seguinte comando (entrar na raiz do linux): pwd
+Execute o seguinte comando (executar o node): npm init -y
+Execute o seguinte comando (instalar o express dentro do container/node): npm install express
+Execute o seguinte comando (listar o diretório do container/node): ls
+Execute o seguinte comando: node index.js
+Execute o seguinte comando: exit
+Execute o seguinte comando: docker stop XXX
+
+Execute o seguinte comando: docker run -v ${PWD}:/home/node/app -p 3000:3000 minha-imagem-node
+Execute o seguinte comando: docker ps
+Execute o seguinte comando: docker exec -it XXX /bin/bash
+Execute o seguinte comando (acessar o diretório): cd home/node/app
+Execute o seguinte comando: node index.js
+
+Instale a extensão: REST client no VSCODE
+
+Crie um arquivo na raiz do projeto: test.http
+Atualize o arquivo com a seguinte linha: 
+GET http://localhost:3000
+Clique em Send Request, acima do GET http://localhost:3000
+
+Execute o seguinte comando: exit
+Execute o seguinte comando: docker ps
+Execute o seguinte comando: docker stop XXX
+
+Abra novamente o arquivo: Dockerfile
+
+Atualize as linhas com o seguinte código:
+FROM node:14.17.0-slim
+# Não utilize o usuário root
+USER node
+#WORKDIR /home/node/app
+CMD [ "node", "/home/node/app/index.js" ]
+#CMD [ "tail", "-f", "/dev/null"]
+
+Como a imagem foi alterada, execute o seguinte comando para aplicar as alterações no arquivo Dockerfile: 
+docker build -t minha-imagem-node .
+
+Execute o seguinte comando: docker run -v ${PWD}:/home/node/app -p 3000:3000 minha-imagem-node
+
+Execute o seguinte comando: docker ps
+Execute o seguinte comando: docker stop XXX
+
+# Docker-Compose
+
+Crie um arquivo na raiz do projeto: docker-compose.yaml
+Atualize com as seguintes linhas:
+version: '3'
+
+services:
+  app:
+    build: .
+    ports:
+      - 3000:3000 #Porta da maquina/Porta container
+    volumes:
+      - .:/home/node/app
+    #depends_on:
+     # - mysql
+  
+  #mysql:
+    #image: mysql:5.7
+    #volumes:
+      #- ./mysql:/var/lib/mysql
+    #environment:
+      #- MYSQL_ROOT_PASSWORD=root
+
+Execute o seguinte comando: docker-compose up
+Control + C para stop
+
+Atualize o arquivo Dockerfile com as seguintes linhas:
+FROM node:14.17.0-slim
+
+# Não utilize o usuário root
+USER node
+WORKDIR /home/node/app
+CMD [ "node", "/home/node/app/index.js" ]
+#CMD [ "tail", "-f", "/dev/null"]
+
+Como a imagem foi alterada, execute o seguinte comando: docker-compose up --build
+# Basta executar apenas uma vez
+
+Acesse o arquivo docker-compose.yaml
+Atualize com as seguintes linhas:
+
+version: '3'
+
+services:
+  app:
+    build: .
+    ports:
+      - 3000:3000 #Porta da maquina/Porta container
+    volumes:
+      - .:/home/node/app
+    #depends_on:
+     # - mysql
+  
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      
+Execute o seguinte comando: docker-compose up
+Comando para listar os containers docker-compose: docker-compose ps
+Comando para derrubar e matar todos os containers-compose: docker-compose down
+
+Comando para gerar uma imagem de um dockerfile di
+
+2:17:16
