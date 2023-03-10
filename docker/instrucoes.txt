@@ -47,7 +47,28 @@ Se você quiser sair sem salvar as alterações, digite :q! e pressione Enter.
 
 ### O volume é a consistencia para que não percam os dados.
 
-1:08:07
+Comando para executar uma imagem 'mysql' com volume: docker run -p 33006:3006 -d -v ${PWD}/mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root mysql:5.7
+# Explicação: -p 33006:3006 -d -v ${PWD}/mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root mysql:5.7
+# -p 33006:3006 'apontar a porta para acesso'
+# -d 'para que o terminal não fique travado' 
+# -v 'volume' 
+# ${PWD} 'diretório atual no windows'
+# /mysql 'criar um diretório na raiz para armazenar o banco de dados e servir para a sincronização'
+# Para esclarecimento: Os dados do banco de dados serão salvos na sua maquina e cada vez que for necessário subir um novo containers, será sincronizado!
 
-
+Comando para acessar a imagem 'mysql': docker exec -it a44 /bin/bash
+Comando para logar no banco de dados 'mysql' via bash: mysql -uroot -proot
+Comando para listar os databases: show databases;
+Comando para selecionar um databases: use sys;
+Comando para listar as tabelas do database selecionado: show tables;
+Comando para sair: exit
+Comando para listar os containers docker ps
+Comando para parar os containers em execução: docker stop XXX
+Comando para listar todos os containers no seu equipamento (offline): docker container ls -a
+Comando para listar somente listar os IDS do containers offline em seu equipamento: docker container ls -a -q
+Comando para excluir um container: docker rm XXX
+Comando para excluir mais de container: docker rm XXX YYY ZZZ
+Comando para listar as imagens salvas no seu equimamento: docker image ls
+Comando para listar as imagens salvas no seu equimamento: docker image ls --format "{{.ID}}\t{{.Repository}}\t{{.Tag}}\t{{.Size}}"
+Comando para excluir uma imagem: docker rmi nome-imagem
 
