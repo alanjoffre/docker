@@ -1,9 +1,6 @@
 ## Docker do zero a produção
 Tudo sobre Docker
-## Rodar a aplicação
+## Todas as informações no arquivo: 
+Instruções.txt
 
-Execute os comandos:
 
-```bash
-docker-compose up
-```
