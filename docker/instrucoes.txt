@@ -249,6 +249,37 @@ Execute o seguinte comando: docker-compose up
 Comando para listar os containers docker-compose: docker-compose ps
 Comando para derrubar e matar todos os containers-compose: docker-compose down
 
-Comando para gerar uma imagem de um dockerfile di
+Crie um arquivo: Dockerfile.prod
+Atualize com as seguintes linhas:
 
-2:17:16
+FROM node:14.17.0-slim
+
+WORKDIR /home/node/app
+
+COPY . .
+
+RUN npm install
+
+USER node
+
+CMD [ "node", "/home/node/app/index.js" ]
+
+Crie um arquivo: .dockerignore
+Atualize com as seguintes linhas:
+node_modules/
+mysql/
+
+Para que as pastas do node e mysql seja ignoradas
+
+Comando para gerar uma imagem de um dockerfile diferente: docker build -t minha-imagem-node-prod -f Dockerfile.prod .
+
+Digite o seguinte comando para rodar o projeto: docker run -p 3000:3000 minha-imagem-node-prod
+
+Digite o seguinte comando: docker ps
+Digite o seguinte comando: docker stop XXX
+
+Comando para gerar uma imagem de um dockerfile diferente com versão: docker build -t minha-imagem-node-prod:0.0.2 -f Dockerfile.prod .
+
+Docker em um clould provider (AWS com EC2)
+FARGATE
+Clould run
