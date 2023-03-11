@@ -280,6 +280,13 @@ Digite o seguinte comando: docker stop XXX
 
 Comando para gerar uma imagem de um dockerfile diferente com versão: docker build -t minha-imagem-node-prod:0.0.2 -f Dockerfile.prod .
 
+Comando para informar os logs: docker logs XXX
+Comando para informar os logs: docker-compose logs XXX
+
 Docker em um clould provider (AWS com EC2)
 FARGATE
 Clould run
+
+Instale a extensão: Dev Containers
+Instale a extensão: Remote Development no VSCODE
+Control + Shift + P
